@@ -191,18 +191,18 @@
                     <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="SystemException Is Nothing" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_3" />
                   </Transition.Condition>
                   <Transition.To>
-                    <State x:Name="__ReferenceID0" DisplayName="Transaction" sap:VirtualizedContainerService.HintSize="820,2050" sap2010:WorkflowViewState.IdRef="State_3">
+                    <State x:Name="__ReferenceID0" DisplayName="Transaction" sap:VirtualizedContainerService.HintSize="818,1526" sap2010:WorkflowViewState.IdRef="State_3">
                       <State.Entry>
-                        <Sequence DisplayName="Verify" sap:VirtualizedContainerService.HintSize="774,1636" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                        <Sequence DisplayName="Verify" sap:VirtualizedContainerService.HintSize="772,1112" sap2010:WorkflowViewState.IdRef="Sequence_23">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
-                          <ui:ShouldStop DisplayName="Should Stop" sap:VirtualizedContainerService.HintSize="732,22" sap2010:WorkflowViewState.IdRef="ShouldStop_1" Result="[boolStopSignal]" />
-                          <If Condition="[intTransactionNumber &lt; dtTransactions.Rows.Count and boolStopSignal = False]" sap:VirtualizedContainerService.HintSize="732,1482" sap2010:WorkflowViewState.IdRef="If_10">
+                          <ui:ShouldStop DisplayName="Should Stop" sap:VirtualizedContainerService.HintSize="730,22" sap2010:WorkflowViewState.IdRef="ShouldStop_1" Result="[boolStopSignal]" />
+                          <If Condition="[intTransactionNumber &lt; dtTransactions.Rows.Count and boolStopSignal = False]" sap:VirtualizedContainerService.HintSize="730,958" sap2010:WorkflowViewState.IdRef="If_10">
                             <If.Then>
-                              <Sequence DisplayName="Process Transactions" sap:VirtualizedContainerService.HintSize="587,1334" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                              <Sequence DisplayName="Process Transactions" sap:VirtualizedContainerService.HintSize="585,810" sap2010:WorkflowViewState.IdRef="Sequence_22">
                                 <Sequence.Variables>
                                   <Variable x:TypeArguments="sd:DataRow" Name="rowTransaction" />
                                 </Sequence.Variables>
@@ -212,11 +212,11 @@
                                     <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="545,91" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[&quot;Starting transaction: &quot; + intTransactionNumber.ToString]" />
-                                <Sequence DisplayName="Processing Input Data" sap:VirtualizedContainerService.HintSize="545,400" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="543,91" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[&quot;Starting transaction: &quot; + intTransactionNumber.ToString]" />
+                                <Sequence DisplayName="Arrange Input Data" sap:VirtualizedContainerService.HintSize="543,66" sap2010:WorkflowViewState.IdRef="Sequence_16">
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                                       <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
@@ -228,7 +228,15 @@
                                       <InArgument x:TypeArguments="sd:DataRow">[dtTransactions.Rows(intTransactionNumber)]</InArgument>
                                     </Assign.Value>
                                   </Assign>
-                                  <If Condition="[rowTransaction(cInt(dcConfig(&quot;TransactionStateIndex&quot;).ToString)).ToString.Trim = &quot;&quot;]" DisplayName="Starting State" sap:VirtualizedContainerService.HintSize="484,208" sap2010:WorkflowViewState.IdRef="If_7">
+                                  <Assign DisplayName="Getting Current State from Transaction Row" sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_19">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[strCurrentState]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">[rowTransaction(cInt(dcConfig("TransactionStateIndex").ToString)).ToString.Trim]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <If Condition="[strCurrentState = &quot;&quot;]" DisplayName="Starting State" sap:VirtualizedContainerService.HintSize="484,208" sap2010:WorkflowViewState.IdRef="If_7">
                                     <sap:WorkflowViewStateService.ViewState>
                                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -247,15 +255,15 @@
                                     </If.Then>
                                   </If>
                                 </Sequence>
-                                <DoWhile DisplayName="Transaction State Machine" sap:VirtualizedContainerService.HintSize="545,671" sap2010:WorkflowViewState.IdRef="DoWhile_2">
+                                <DoWhile DisplayName="Transaction State Machine" sap:VirtualizedContainerService.HintSize="543,481" sap2010:WorkflowViewState.IdRef="DoWhile_2">
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                       <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
-                                  <DoWhile.Condition>[rowTransaction(cInt(dcConfig("TransactionStateIndex").ToString)).ToString &lt;&gt; "END" And SystemException Is Nothing And BusinessRuleException Is Nothing]</DoWhile.Condition>
-                                  <Switch x:TypeArguments="x:String" DisplayName="Select Transaction State" Expression="[rowTransaction(cInt(dcConfig(&quot;TransactionStateIndex&quot;).ToString)).ToString]" sap:VirtualizedContainerService.HintSize="499,509" sap2010:WorkflowViewState.IdRef="Switch`1_2">
+                                  <DoWhile.Condition>[strCurrentState &lt;&gt; "END" And SystemException Is Nothing And BusinessRuleException Is Nothing]</DoWhile.Condition>
+                                  <Switch x:TypeArguments="x:String" DisplayName="Select Transaction State" Expression="[strCurrentState]" sap:VirtualizedContainerService.HintSize="497,319" sap2010:WorkflowViewState.IdRef="Switch`1_2">
                                     <Switch.Default>
                                       <Sequence DisplayName="Default" sap:VirtualizedContainerService.HintSize="376,283" sap2010:WorkflowViewState.IdRef="Sequence_21">
                                         <sap:WorkflowViewStateService.ViewState>
@@ -297,7 +305,7 @@
                                         <ui:InvokeWorkflowFile.Arguments>
                                           <OutArgument x:TypeArguments="s:Exception" x:Key="SystemException">[SystemException]</OutArgument>
                                           <OutArgument x:TypeArguments="ui:BusinessRuleException" x:Key="BusinessRuleException">[BusinessRuleException]</OutArgument>
-                                          <InArgument x:TypeArguments="x:String" x:Key="in_strStateName">[rowTransaction(cInt(dcConfig("TransactionStateIndex").ToString)).ToString]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_strStateName">[strCurrentState]</InArgument>
                                           <InOutArgument x:TypeArguments="x:Int32" x:Key="io_intMagicNumber">[intTest01]</InOutArgument>
                                           <OutArgument x:TypeArguments="x:String" x:Key="out_strSubState">[strSubState]</OutArgument>
                                         </ui:InvokeWorkflowFile.Arguments>
@@ -313,10 +321,10 @@
                                             <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;State 01 concluded&quot;]" />
                                             <Assign DisplayName="Defining Next State" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_16">
                                               <Assign.To>
-                                                <OutArgument x:TypeArguments="x:Object">[rowTransaction(cInt(dcConfig("TransactionStateIndex").ToString))]</OutArgument>
+                                                <OutArgument x:TypeArguments="x:String">[strCurrentState]</OutArgument>
                                               </Assign.To>
                                               <Assign.Value>
-                                                <InArgument x:TypeArguments="x:Object">["State02"]</InArgument>
+                                                <InArgument x:TypeArguments="x:String">State02</InArgument>
                                               </Assign.Value>
                                             </Assign>
                                           </Sequence>
@@ -338,7 +346,7 @@
                                         <ui:InvokeWorkflowFile.Arguments>
                                           <OutArgument x:TypeArguments="s:Exception" x:Key="SystemException">[SystemException]</OutArgument>
                                           <OutArgument x:TypeArguments="ui:BusinessRuleException" x:Key="BusinessRuleException">[BusinessRuleException]</OutArgument>
-                                          <InArgument x:TypeArguments="x:String" x:Key="in_strStateName">[rowTransaction(cInt(dcConfig("TransactionStateIndex").ToString)).ToString]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_strStateName">[strCurrentState]</InArgument>
                                           <InOutArgument x:TypeArguments="x:Int32" x:Key="io_intMagicNumber">[intTest01]</InOutArgument>
                                           <OutArgument x:TypeArguments="x:String" x:Key="out_strSubState">[strSubState]</OutArgument>
                                         </ui:InvokeWorkflowFile.Arguments>
@@ -354,10 +362,10 @@
                                             <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;State 02 concluded&quot;]" />
                                             <Assign DisplayName="Defining Next State" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_17">
                                               <Assign.To>
-                                                <OutArgument x:TypeArguments="x:Object">[rowTransaction(cInt(dcConfig("TransactionStateIndex").ToString))]</OutArgument>
+                                                <OutArgument x:TypeArguments="x:String">[strCurrentState]</OutArgument>
                                               </Assign.To>
                                               <Assign.Value>
-                                                <InArgument x:TypeArguments="x:Object">["END"]</InArgument>
+                                                <InArgument x:TypeArguments="x:String">END</InArgument>
                                               </Assign.Value>
                                             </Assign>
                                           </Sequence>
@@ -598,6 +606,7 @@
       <Variable x:TypeArguments="x:Int32" Default="0" Name="intTransactionNumber" />
       <Variable x:TypeArguments="x:Int32" Default="0" Name="intRetryNumber" />
       <Variable x:TypeArguments="x:Int32" Default="3" Name="intRetryMax" />
+      <Variable x:TypeArguments="x:String" Name="strCurrentState" />
     </StateMachine.Variables>
   </StateMachine>
 </Activity>
