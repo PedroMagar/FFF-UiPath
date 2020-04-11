@@ -3,10 +3,11 @@
     <x:Property Name="SystemException" Type="OutArgument(s:Exception)" />
     <x:Property Name="BusinessRuleException" Type="OutArgument(ui:BusinessRuleException)" />
     <x:Property Name="in_strStateName" Type="InArgument(x:String)" />
-    <x:Property Name="io_intMagicNumber" Type="InOutArgument(x:Int32)" />
-    <x:Property Name="out_strSubState" Type="OutArgument(x:String)" />
+    <x:Property Name="in_strLogDefault" Type="InArgument(x:String)" />
+    <x:Property Name="io_strSubState" Type="InOutArgument(x:String)" />
+    <x:Property Name="in_strTransaction" Type="InArgument(x:String)" />
   </x:Members>
-  <sap:VirtualizedContainerService.HintSize>458,692</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>855,1807</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="32">
@@ -27,6 +28,7 @@
       <x:String>Microsoft.VisualBasic</x:String>
       <x:String>UiPath.Core</x:String>
       <x:String>UiPath.Core.Activities</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -48,40 +50,119 @@
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <TryCatch DisplayName="TransactionStep" sap:VirtualizedContainerService.HintSize="438,632" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+  <TryCatch DisplayName="TransactionStep" sap:VirtualizedContainerService.HintSize="835,1747" sap2010:WorkflowViewState.IdRef="TryCatch_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <TryCatch.Try>
-      <Sequence DisplayName="Process" sap:VirtualizedContainerService.HintSize="376,383" sap2010:WorkflowViewState.IdRef="Sequence_1">
+      <Sequence DisplayName="Process" sap:VirtualizedContainerService.HintSize="797,1498" sap2010:WorkflowViewState.IdRef="Sequence_1">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
-        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[in_strStateName]" />
-        <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_3">
-          <Assign.To>
-            <OutArgument x:TypeArguments="x:Int32">[io_intMagicNumber]</OutArgument>
-          </Assign.To>
-          <Assign.Value>
-            <InArgument x:TypeArguments="x:Int32">[io_intMagicNumber + 1]</InArgument>
-          </Assign.Value>
-        </Assign>
-        <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_4">
-          <Assign.To>
-            <OutArgument x:TypeArguments="x:String">[out_strSubState]</OutArgument>
-          </Assign.To>
-          <Assign.Value>
-            <InArgument x:TypeArguments="x:String">SubState01</InArgument>
-          </Assign.Value>
-        </Assign>
+        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="755,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[in_strLogDefault +  &quot;Starting&quot;]" />
+        <If Condition="[io_strSubState = &quot;&quot;]" DisplayName="Starting Initial State" sap:VirtualizedContainerService.HintSize="755,431" sap2010:WorkflowViewState.IdRef="If_1">
+          <If.Then>
+            <Sequence sap:VirtualizedContainerService.HintSize="376,283" sap2010:WorkflowViewState.IdRef="Sequence_3">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[in_strLogDefault + &quot;First execution of &quot; + in_strStateName + &quot; for transaction &quot; + in_strTransaction]" />
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[io_strSubState]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">FIRST</InArgument>
+                </Assign.Value>
+              </Assign>
+            </Sequence>
+          </If.Then>
+          <If.Else>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[in_strLogDefault + &quot;Returning Step from state: &quot; + io_strSubState]" />
+          </If.Else>
+        </If>
+        <DoWhile DisplayName="Step State Machine" sap:VirtualizedContainerService.HintSize="755,673" sap2010:WorkflowViewState.IdRef="DoWhile_1" Condition="[io_strSubState &lt;&gt; &quot;END&quot; And SystemException Is Nothing And BusinessRuleException Is Nothing]">
+          <Switch x:TypeArguments="x:String" DisplayName="Switch" Expression="[io_strSubState]" sap:VirtualizedContainerService.HintSize="497,511" sap2010:WorkflowViewState.IdRef="Switch`1_1">
+            <Switch.Default>
+              <Sequence DisplayName="Default" sap:VirtualizedContainerService.HintSize="376,283" sap2010:WorkflowViewState.IdRef="Sequence_2">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Warn" Message="[in_strLogDefault+&quot;There is no state named: &quot; +io_strSubState]" />
+                <Assign DisplayName="Gerando Exceção" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="ui:BusinessRuleException">[BusinessRuleException]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="ui:BusinessRuleException">[New BusinessRuleException("There is no state named: " + io_strSubState)]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </Switch.Default>
+            <Sequence x:Key="FIRST" sap:VirtualizedContainerService.HintSize="376,280" sap2010:WorkflowViewState.IdRef="Sequence_4">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[in_strLogDefault + &quot;State FIRST concluded&quot;]" />
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[io_strSubState]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">SECOND</InArgument>
+                </Assign.Value>
+              </Assign>
+            </Sequence>
+            <Sequence x:Key="SECOND" sap:VirtualizedContainerService.HintSize="376,283" sap2010:WorkflowViewState.IdRef="Sequence_5">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[in_strLogDefault + &quot;State SECOND concluded&quot;]" />
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_8">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[io_strSubState]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">LAST</InArgument>
+                </Assign.Value>
+              </Assign>
+            </Sequence>
+            <Sequence x:Key="LAST" sap:VirtualizedContainerService.HintSize="376,283" sap2010:WorkflowViewState.IdRef="Sequence_6">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[in_strLogDefault + &quot;State LAST concluded&quot;]" />
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_9">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[io_strSubState]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">END</InArgument>
+                </Assign.Value>
+              </Assign>
+            </Sequence>
+          </Switch>
+        </DoWhile>
+        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="755,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[in_strLogDefault +  &quot;Concluded&quot;]" />
       </Sequence>
     </TryCatch.Try>
     <TryCatch.Catches>
-      <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+      <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="801,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -102,7 +183,7 @@
           </Assign>
         </ActivityAction>
       </Catch>
-      <Catch x:TypeArguments="ui:BusinessRuleException" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+      <Catch x:TypeArguments="ui:BusinessRuleException" sap:VirtualizedContainerService.HintSize="801,21" sap2010:WorkflowViewState.IdRef="Catch`1_2">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
