@@ -1610,9 +1610,9 @@
     "restore": {
       "projectUniqueName": "Fast Flow Framework",
       "projectName": "Fast Flow Framework",
-      "projectPath": "C:\\Users\\pedro\\Documents\\UiPath\\Fast Flow Framework\\.local",
+      "projectPath": "D:\\Projetos\\FFF-UiPath\\.local",
       "packagesPath": "C:\\Users\\pedro\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pedro\\Documents\\UiPath\\Fast Flow Framework\\.local"
+      "outputPath": "D:\\Projetos\\FFF-UiPath\\.local"
     },
     "frameworks": {
       "net461": {
