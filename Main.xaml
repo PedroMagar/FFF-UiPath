@@ -3,7 +3,7 @@
     <x:Property Name="errorInfo" Type="InArgument(uico:ExceptionHandlerArgs)" />
     <x:Property Name="result" Type="OutArgument(uico:ErrorAction)" />
   </x:Members>
-  <sap:VirtualizedContainerService.HintSize>1234,831</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1195,831</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="19">
@@ -160,7 +160,7 @@
             <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="SystemException is Nothing" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_2" />
           </Transition.Condition>
           <Transition.To>
-            <State x:Name="__ReferenceID2" DisplayName="Get Data" sap:VirtualizedContainerService.HintSize="140,61" sap2010:WorkflowViewState.IdRef="State_4">
+            <State x:Name="__ReferenceID2" DisplayName="Get Data" sap:VirtualizedContainerService.HintSize="422,662" sap2010:WorkflowViewState.IdRef="State_4">
               <State.Entry>
                 <Sequence sap2010:Annotation.AnnotationText="Read and process input data (dtTransactions)." DisplayName="Retrieve Data" sap:VirtualizedContainerService.HintSize="376,275" sap2010:WorkflowViewState.IdRef="Sequence_2">
                   <sap:WorkflowViewStateService.ViewState>
@@ -169,7 +169,7 @@
                       <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <ui:ReadCsvFile Encoding="{x:Null}" DataTable="[dtTransactions]" Delimitator="Comma" DisplayName="Read CSV" FilePath="Data\Temp\InputControl.csv" sap:VirtualizedContainerService.HintSize="334,152" sap2010:WorkflowViewState.IdRef="ReadCsvFile_1" />
+                  <ui:ReadCsvFile Encoding="{x:Null}" DataTable="[dtTransactions]" Delimitator="Comma" DisplayName="Read CSV" FilePath="[dcConfig(&quot;InputPath&quot;).ToString + dcConfig(&quot;InputFile&quot;).ToString]" sap:VirtualizedContainerService.HintSize="334,152" sap2010:WorkflowViewState.IdRef="ReadCsvFile_1" />
                 </Sequence>
               </State.Entry>
               <sap:WorkflowViewStateService.ViewState>
@@ -194,18 +194,18 @@
                     <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="SystemException Is Nothing" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_3" />
                   </Transition.Condition>
                   <Transition.To>
-                    <State x:Name="__ReferenceID0" DisplayName="Transaction" sap:VirtualizedContainerService.HintSize="818,1718" sap2010:WorkflowViewState.IdRef="State_3">
+                    <State x:Name="__ReferenceID0" DisplayName="Transaction" sap:VirtualizedContainerService.HintSize="134,61" sap2010:WorkflowViewState.IdRef="State_3">
                       <State.Entry>
-                        <Sequence DisplayName="Verify" sap:VirtualizedContainerService.HintSize="772,1304" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                        <Sequence DisplayName="Verify" sap:VirtualizedContainerService.HintSize="772,975" sap2010:WorkflowViewState.IdRef="Sequence_23">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
                           <ui:ShouldStop DisplayName="Should Stop" sap:VirtualizedContainerService.HintSize="730,22" sap2010:WorkflowViewState.IdRef="ShouldStop_1" Result="[boolStopSignal]" />
-                          <If Condition="[intTransactionNumber &lt; dtTransactions.Rows.Count and boolStopSignal = False]" sap:VirtualizedContainerService.HintSize="730,1150" sap2010:WorkflowViewState.IdRef="If_10">
+                          <If Condition="[intTransactionNumber &lt; dtTransactions.Rows.Count and boolStopSignal = False]" sap:VirtualizedContainerService.HintSize="730,821" sap2010:WorkflowViewState.IdRef="If_10">
                             <If.Then>
-                              <Sequence DisplayName="Process Transactions" sap:VirtualizedContainerService.HintSize="585,1002" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                              <Sequence DisplayName="Process Transactions" sap:VirtualizedContainerService.HintSize="585,673" sap2010:WorkflowViewState.IdRef="Sequence_22">
                                 <Sequence.Variables>
                                   <Variable x:TypeArguments="sd:DataRow" Name="rowTransaction" />
                                 </Sequence.Variables>
@@ -261,7 +261,7 @@
                                     </If.Else>
                                   </If>
                                 </Sequence>
-                                <DoWhile DisplayName="Transaction State Machine" sap:VirtualizedContainerService.HintSize="543,673" sap2010:WorkflowViewState.IdRef="DoWhile_2">
+                                <DoWhile DisplayName="Transaction State Machine" sap:VirtualizedContainerService.HintSize="543,344" sap2010:WorkflowViewState.IdRef="DoWhile_2">
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -271,7 +271,7 @@
                                   <DoWhile.Condition>
                                     <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="strCurrentState &lt;&gt; &quot;END&quot; And SystemException Is Nothing And BusinessRuleException Is Nothing" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_1" />
                                   </DoWhile.Condition>
-                                  <Switch x:TypeArguments="x:String" DisplayName="Select Transaction State" Expression="[strCurrentState]" sap:VirtualizedContainerService.HintSize="497,511" sap2010:WorkflowViewState.IdRef="Switch`1_2">
+                                  <Switch x:TypeArguments="x:String" DisplayName="Select Transaction State" Expression="[strCurrentState]" sap:VirtualizedContainerService.HintSize="497,182" sap2010:WorkflowViewState.IdRef="Switch`1_2">
                                     <Switch.Default>
                                       <Sequence DisplayName="Default" sap:VirtualizedContainerService.HintSize="376,283" sap2010:WorkflowViewState.IdRef="Sequence_21">
                                         <sap:WorkflowViewStateService.ViewState>
@@ -620,7 +620,7 @@
                             </State>
                           </Transition.To>
                         </Transition>
-                        <Transition DisplayName="End Process" sap2010:WorkflowViewState.IdRef="Transition_5">
+                        <Transition DisplayName="End Process" sap:VirtualizedContainerService.HintSize="450,505" sap2010:WorkflowViewState.IdRef="Transition_5">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <av:PointCollection x:Key="ConnectorLocation">354,227.1 254,227.1</av:PointCollection>
@@ -635,7 +635,7 @@
                             <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="intTransactionNumber &gt;= dtTransactions.Rows.Count" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_7" />
                           </Transition.Condition>
                         </Transition>
-                        <Transition DisplayName="Next Transaction" sap:VirtualizedContainerService.HintSize="450,505" sap2010:WorkflowViewState.IdRef="Transition_9">
+                        <Transition DisplayName="Next Transaction" sap:VirtualizedContainerService.HintSize="755,505" sap2010:WorkflowViewState.IdRef="Transition_9">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <av:PointCollection x:Key="ConnectorLocation">488,199.65 507.8,199.65 507.8,160.5 447.8,160.5 447.8,190.5</av:PointCollection>
